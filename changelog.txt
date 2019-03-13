@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+  Changes:
+    Migrated to Factorio 0.17
+---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+    Changes:
+      Drunk release
+---------------------------------------------------------------------------------------------------
 Version: 1.0.7
   Features:
     - Added more optional dependencies (FoodIndustry)
@@ -18,7 +26,7 @@ Version: 1.0.5
     - Bumped up BlackMarket dependency to 1.1.1
     - Fixed incompatibility with omnimatter.
     - Improved error reporting when technologies got messed up by another mod.
----------------------------------------------------------------------------------------------------    
+---------------------------------------------------------------------------------------------------
 1.0.4
 - Fixed loading order with mods angelspetrochem, bobtech and bobrevamp. Ensuring TechnologyMarket is loaded after.
 
