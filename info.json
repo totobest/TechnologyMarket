@@ -1,0 +1,23 @@
+{
+  "name": "TechnologyMarket",
+  "version": "1.1.0",
+  "title": "Technology Market",
+  "author": "totobest",
+  "description": "Spend your hard-earned credits to research technologies. Requires Black Market mod.",
+  "homepage": "https://forums.factorio.com/viewtopic.php?f=190&t=64938",
+  "contact": "https://forums.factorio.com/memberlist.php?mode=viewprofile&u=33461",
+  "factorio_version": "0.17",
+  "dependencies": [
+	"base >= 0.17.11",
+	"BlackMarket >= 1.2.1",
+	"? bobtech",
+	"? omnimatter",
+	"? omnimatter_science",
+	"? angelspetrochem",
+	"? bobtech",
+	"? bobrevamp",
+	"? SuperCheapMode",
+	"? aai-industry",
+	"? FoodIndustry"
+  ]
+}

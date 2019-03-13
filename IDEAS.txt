@@ -1,0 +1,7 @@
+- LITE version: Keep science packs behavior in the world so they are still needed in labs but they are not craftable anymore. Need to buy them from the market.
+- Technology miniaturizer --> Allow to exchange with other forces
+- Ucoins into labs
+
+[tech]
+- use interface to BlackMarket to format currency
+- use interface to buy from the market so transaction is logged in BM

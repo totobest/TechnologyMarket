@@ -1,0 +1,35 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.7
+  Features:
+    - Added more optional dependencies (FoodIndustry)
+  Changes:
+    None
+---------------------------------------------------------------------------------------------------
+Version: 1.0.6
+  Features:
+    - Added more optional dependencies (aai-industries and SuperCheepMode)
+  Changes:
+    None
+---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+  Features:
+    None
+  Changes:
+    - Bumped up BlackMarket dependency to 1.1.1
+    - Fixed incompatibility with omnimatter.
+    - Improved error reporting when technologies got messed up by another mod.
+---------------------------------------------------------------------------------------------------    
+1.0.4
+- Fixed loading order with mods angelspetrochem, bobtech and bobrevamp. Ensuring TechnologyMarket is loaded after.
+
+1.0.3
+- Fixed loading the mod from zip file
+
+1.0.2
+- Fixed nasty bug which made all technologies doing nothing
+
+1.0.1
+- Hello world!
+
+1.0.0
+- Never released
