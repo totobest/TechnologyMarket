@@ -1,0 +1,4 @@
+*.sh          export-ignore
+*.cmd         export-ignore
+*.xcf         export-ignore
+screenshots/  export-ignore
