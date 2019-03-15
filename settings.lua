@@ -39,11 +39,11 @@ local function create_default_science_pack_setting(localised_name, name, cost, e
 	  {
 		name = "science-pack-" .. name .. "-enabled",
 		type = "bool-setting",
-		localised_name = localised_name .. " enabled",
+		localised_name = "Replace " .. localised_name,
 		setting_type = "startup",
 		default_value = enabled == nil and true or enabled,
 		order = science_pack_index_str .. "a"
-	  },	
+	  },
 	  {
 		name = "science-pack-" .. name .. "-cost",
 		type = "int-setting",
@@ -82,7 +82,7 @@ local function create_extra_science_pack_setting()
 		minimum_value = 0,
 		order = science_pack_index_str .. "b"
 	  },
-	
+
 	}
 	extra_science_pack_index = extra_science_pack_index + 1
 	return result
