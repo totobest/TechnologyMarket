@@ -1,5 +1,5 @@
 require("utils")
-require("stdlib/table")
+local table = require('__stdlib__/stdlib/utils/table')
 
 local function filter_out_known_packs(effects_parent, pack_table, technology_name)
 	effects_parent.effects = table.filter(effects_parent.effects, function(effect)
@@ -44,55 +44,7 @@ local function technology_remove_units_of_known_packs(technology, pack_table)
 		return pack_table[pack_name] == nil
 	end)
 end
-local function create_technology_ghost(technology)
-  local technology_ghost = table.deepcopy(technology)
-  technology_ghost.name = technology.name .. "_tm"
-  technology_ghost.enabled = false
-  technology_ghost.max_level = nil
-  technology_ghost.upgrade = false
-  data.raw.technology[technology_ghost.name] = technology_ghost
-end
 
-local function add_cost_info_to_techonology(technology)
-  -- LOG("technology.name=" .. technology.name)
-
-  local cost_text
-
-  if technology.unit.count == nil then
-    assert(technology.unit.count_formula ~= nil, "no technology.unit.count and no technology.unit.count_formula!")
-    -- infinite technology
-	cost_text = "variable"
-  else
-    local ingredients = {}
-	local n = 0
-	for _, v in pairs(technology.unit.ingredients) do
-		n = n + 1
-		ingredients[n] = v[1]
-	end
-
-	local cost = get_technology_cost(technology.unit.count or 1, ingredients)
-	cost_text = format_money(cost)
-  end
-
-  local pattern = string.match(technology.name, "-(%d+)")
-  local technology_name_for_localisation =  pattern and string.sub(technology.name, 1, -#pattern - 2) or technology.name
-
-  if settings.startup.cost_in_description.value then
-	cost_text = "Cost: " .. cost_text
-	local localised_description = technology.localised_description or {"technology-description." .. technology_name_for_localisation}
-	localised_description = {"", localised_description, "\n", cost_text}
-	technology.localised_description = localised_description
-  else
-	cost_text = "(" .. cost_text .. ")"
-	local localised_name = technology.localised_name or {"technology-name." .. technology_name_for_localisation}
-	local localised_name_array = {"", localised_name}
-	if pattern and technology.unit.count_formula == nil then
-		table.insert(localised_name_array, " " .. pattern)
-	end
-	table.insert(localised_name_array, " " .. cost_text)
-	technology.localised_name = localised_name_array
-  end
-end
 
 local function set_pack_settings(pack_name)
 	local pack_recipe = data.raw.recipe[pack_name]
@@ -111,20 +63,55 @@ local function set_pack_settings(pack_name)
 
 end
 
+local function get_technology_cost(ingredients)
+	local c = 0
+	table.each(ingredients, function(ingredient)
+		if science_pack_cost_table[ingredient] then
+			c = c + science_pack_cost_table[ingredient]
+		end
+	end)
+	return c
+end
+
+
 table.each(data.raw.technology, function(technology, name)
-	if not string.find(name, "_tm") then
-		create_technology_ghost(technology)
-		add_cost_info_to_techonology(technology)
-		technology_remove_unlock_recipe_of_known_packs(technology, science_pack_cost_table)
-		technology_remove_units_of_known_packs(technology, science_pack_cost_table)
+	local cost = nil
+	if technology.unit.count == nil then
+		cost = 1
+	else
+		cost = get_technology_cost(
+			table.map(technology.unit.ingredients, function(v) return v[1] end))
+		cost = math.floor(cost / technology.unit.count)
 	end
+
+	technology_remove_unlock_recipe_of_known_packs(technology, science_pack_cost_table)
+	technology_remove_units_of_known_packs(technology, science_pack_cost_table)
+
+	-- LOG("technology.name=" .. technology.name .. " technology.unit.count=" .. (technology.unit.count == nil and "nil" or technology.unit.count) .. " cost=" .. cost)
+	table.insert(technology.unit.ingredients,
+		{"ucoin", cost}
+	)
 end)
 
 table.each(science_pack_cost_table, function(_, pack_name)
 	set_pack_settings(pack_name)
 end)
 
+data:extend({
+	table.merge(
+		table.deep_copy(data.raw.item.ucoin),
+		{
+			type = "tool",
+			durability = 1
+		}
+	)
+})
+
+data.raw.item.ucoin = nil
+
 table.each(data.raw.lab, function(lab)
 	local inputs = lab.inputs
-	lab.inputs = table.filter(inputs, function(item) return not science_pack_cost_table[item] end)
+	inputs = table.filter(inputs, function(item) return not science_pack_cost_table[item] end)
+	table.insert(inputs, "ucoin")
+	lab.inputs = inputs
 end)

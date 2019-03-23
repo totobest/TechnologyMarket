@@ -1,4 +1,4 @@
-require("stdlib/table")
+local table = require('__stdlib__/stdlib/utils/table')
 
 -- some default values for popular science packs.
 -- costs are taken from the in-game market before activating the mod.

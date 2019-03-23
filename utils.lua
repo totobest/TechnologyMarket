@@ -1,10 +1,10 @@
 require("config")
-require("stdlib/string")
-require("stdlib/table")
-require("stdlib/log/logger")
+local string = require('__stdlib__/stdlib/utils/string')
+local table = require('__stdlib__/stdlib/utils/table')
+local Logger = require('__stdlib__/stdlib/misc/logger')
 
 IS_DEBUG = false
- 
+
 LOGGER = Logger.new('TechnologyMarket', nil, IS_DEBUG, {
 		log_ticks = false,
 })
@@ -26,10 +26,10 @@ local thousands_separator = ","
 
 function format_money( n )
 	if n == nil then return( "0u" ) end
-	
+
 	local neg, mega
 	local unit
-	
+
 	if settings.startup.use_k_m_notation.value then
 		if n >= 100000 then
 			n = math.floor(n/100000)
@@ -39,28 +39,28 @@ function format_money( n )
 			unit = "thousand"
 		end
 	end
-	
+
 	if n < 0 then
 		n = -n
 		neg = true
 	else
 		neg = false
 	end
-	
+
 	local s = tostring(math.floor(n+0.5))
 	local s2 = ""
 	local l = string.len(s)
 	local i = l+1
-	
+
 	while i > 4 do
-		i = i-3	
+		i = i-3
 		s2 =  thousands_separator .. string.sub(s,i,i+2) .. s2
 	end
-	
+
 	if i > 1 then
 		s2 =  string.sub(s,1,i-1) .. s2
 	end
-	
+
 	if not settings.startup.use_k_m_notation.value or unit == nil then
 		s2 = s2 .. "u"
 	elseif unit == "million" then
@@ -68,7 +68,7 @@ function format_money( n )
 	elseif unit == "thousand" then
 			s2 = s2 .. "Ku"
 	end
-	
+
 	if neg then
 		return( "-" .. s2 )
 	else
@@ -97,19 +97,4 @@ for i = 1, num_extra_science_pack_settings do
 		local science_pack_cost = settings.startup[key .."-cost"].value
 		add_science_pack(science_pack_name, science_pack_cost)
 	end
-end  
-
-function get_technology_cost(unit_count, ingredients)
-	local c = 0
-	if not unit_count then
-		error("unit_count cannot be nil")
-	end
-	table.each(ingredients, function(ingredient)
-		if science_pack_cost_table[ingredient] then
-			c = c + science_pack_cost_table[ingredient]
-		end
-	end)
-	return c * unit_count
 end
-
-

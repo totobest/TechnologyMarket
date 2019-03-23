@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.0.0
+  Breaking changes:
+    - Labs now accept ucoins. You need to bring ucoin to the labs.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.1.2
   Changes:
     Fixed settings description
