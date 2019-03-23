@@ -1,8 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.0
   Breaking changes:
-    - Labs now accept ucoins. You need to bring ucoin to the labs.
-
+    - Decoupled with BlackMarket mod, instead use LibMoney mod.
+    - Labs now accept ucoins. You need to bring ucoin to the labs. better
+    technology coming soon :)
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.2
   Changes:
