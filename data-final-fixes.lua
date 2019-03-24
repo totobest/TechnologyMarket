@@ -70,7 +70,7 @@ local function get_technology_cost(ingredients)
 			c = c + science_pack_cost_table[ingredient]
 		end
 	end)
-	return c
+	return c / 20
 end
 
 
@@ -88,6 +88,10 @@ table.each(data.raw.technology, function(technology, name)
 	technology_remove_units_of_known_packs(technology, science_pack_cost_table)
 
 	-- LOG("technology.name=" .. technology.name .. " technology.unit.count=" .. (technology.unit.count == nil and "nil" or technology.unit.count) .. " cost=" .. cost)
+	if cost == 0 then
+		LOG("calculated cost for technology is 0 " .. name)
+		cost = 1
+	end
 	table.insert(technology.unit.ingredients,
 		{"ucoin", cost}
 	)
